@@ -38,9 +38,8 @@
       </tr>
     </thead>
     <tbody>
-      <!-- <% for(var i=0; i<sl.length; i++) {% > -->
-      <% for(var i=0; i<(sl.filter(function (o){return o.event == document.getElementById("event-dropdown-select")})).length; i++) {%>
-      
+      <% for(var i=0; i<sl.length; i++) {%>
+      <!-- (sl.filter(function (o){return o["event"] == 5})) -->
         <tr>
          <td>
            <%= sl[i].time %>
