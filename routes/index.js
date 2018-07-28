@@ -14,10 +14,9 @@ var firebase = require("firebase");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  groupedData = req.app.get("sortedData")
-  cd = req.app.get("clickData")
-  // console.log("template printing:" +  cd);
-  sortedData = {};
+  // groupedData = req.app.get("sortedData")
+  // sortedData = {};
+  cd = req.app.get("clickData");
   sortedData = groupBy(cd, "theme", "act");
   sortedList = unlistDict(sortedData, "theme", "act");
   // sortedList = unlist(sorted)
@@ -35,6 +34,15 @@ router.get('/', function(req, res, next) {
   // console.log("event list " + eventList);
   res.render('index', { title: 'Express' , sl: sortedList, evList: eventList});
 
+});
+
+router.get('/:eventName', function(req, res, next) {
+  cd = req.app.get("clickData");
+  sortedData = groupBy(cd, "theme", "act");
+  sortedList = unlistDict(sortedData, "theme", "act");
+
+  flsl = sortedList.filter( function (o){ return o["event"] == req.params.eventName; } );
+  res.render('index', { title: 'Express' , sl: flsl, evList: eventList} );
 });
 
 function makeDict (eventList, eventName) {
