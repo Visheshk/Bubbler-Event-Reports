@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Event Data Report</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -10,9 +10,22 @@
 
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <h3> Development of Understanding</h3>
+    <h1>Event Reporter</h1>
+    <!-- <p>Welcome to <%= title %></p> -->
+    <!-- <h3> Development of Understanding</h3> -->
+    <p></p>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Choose Event
+      </button>
+      <div id = "event-dropdown-select" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <% for(var i=0; i<evList.length; i++) {%>
+          <a class="dropdown-item" href="#"><%= evList[i] %></a>
+        <% } %>
+      </div>
+    </div>
+
+    <p></p>
     <table class="table">
     <thead>
       <tr>
@@ -20,19 +33,29 @@
         <th scope="col">Time</th>
         <th scope="col">Action</th>
         <th scope="col">Theme</th>
+        <th scope="col">Notes</th>
+        <th scope="col">Tags</th>
       </tr>
     </thead>
     <tbody>
-      <% for(var i=0; i<understandingData.length; i++) {%>
+      <!-- <% for(var i=0; i<sl.length; i++) {% > -->
+      <% for(var i=0; i<(sl.filter(function (o){return o.event == document.getElementById("event-dropdown-select")})).length; i++) {%>
+      
         <tr>
          <td>
-           <%= understandingData[i].epoch %>
+           <%= sl[i].time %>
          </td>
          <td>
-           <%= understandingData[i].action %>
+           <%= sl[i].act %>
          </td>
          <td>
-           <%= understandingData[i].theme %>
+           <%= sl[i].theme %>
+         </td>
+         <td>
+           <%= sl[i].notes %>
+         </td>
+         <td>
+           <%= sl[i].tags %>
          </td>
        </tr>
 

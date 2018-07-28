@@ -36,19 +36,43 @@ connectedRef.on("value", function(snap) {
 data = [];
 // console.log(fdb);
 
-fref = fdb.ref().child("EventsDebug1/LogClicks");
+// function groupBy( array , f ) {
+//   var groups = {};
+//   array.forEach( function( o ) {
+//     var group = JSON.stringify( f(o) );
+//     groups[group] = groups[group] || [];
+//     groups[group].push( o );  
+//   });
+//   return Object.keys(groups).map( function( group ){
+//     return groups[group]; 
+//   })
+// }
 
+// var result = groupBy(list, function(item){
+//   return [item.lastname, item.age];
+// });
+
+
+fref = fdb.ref().child("EventsDebug1/ActionList");
+eventList = [];
 // console.log(fdb);
 sortedData = {"Development of Understanding": [], "Social Scaffolding": []};
 fref.on('child_added', function(snapshot) {
   // console.log(snapshot.val())
   data.push(snapshot.val());
-  if (sortedData[snapshot.val.theme] == undefined) {
-    sortedData[snapshot.val.theme] = [];
+  
+  // if (sortedData[snapshot.val.theme] == undefined) {
+  //   sortedData[snapshot.val.theme] = [];
+  // }
+
+  // sortedData[snapshot.val.theme].push(snapshot.val());
+  // console.log(snapshot.val().event);
+  if (eventList.indexOf(snapshot.val().event) == -1) {
+    eventList.push(snapshot.val().event);
   }
-  sortedData[snapshot.val.theme].push(snapshot.val());
   app.set('clickData', data);
-  app.set('groupedData', sortedData);
+  app.set('eventList', eventList);
+  // app.set('groupedData', sortedData);
   // console.log(sortedData);
 });
 
