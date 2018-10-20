@@ -34,6 +34,8 @@ connectedRef.on("value", function(snap) {
 
 
 data = [];
+evNameList = [];
+eventNameDict = {};
 // console.log(fdb);
 
 // function groupBy( array , f ) {
@@ -52,8 +54,9 @@ data = [];
 //   return [item.lastname, item.age];
 // });
 
-
-fref = fdb.ref().child("EventsDebug1/ActionList");
+firebaseref = fdb.ref();
+fref = firebaseref.child("EventsDebug1/ActionList");
+eventref = firebaseref.child("EventsDebug1/EventList");
 eventList = [];
 // console.log(fdb);
 sortedData = {"Development of Understanding": [], "Social Scaffolding": []};
@@ -61,20 +64,28 @@ fref.on('child_added', function(snapshot) {
   // console.log(snapshot.val())
   data.push(snapshot.val());
   
-  // if (sortedData[snapshot.val.theme] == undefined) {
-  //   sortedData[snapshot.val.theme] = [];
-  // }
-
-  // sortedData[snapshot.val.theme].push(snapshot.val());
-  // console.log(snapshot.val().event);
   if (eventList.indexOf(snapshot.val().event) == -1) {
     eventList.push(snapshot.val().event);
+    // console.log(snapshot.val().event);
   }
   app.set('clickData', data);
   app.set('eventList', eventList);
   // app.set('groupedData', sortedData);
   // console.log(sortedData);
 });
+
+eventNameDict[""] = {"eventCode": "none", "eventOrganizer": ""};
+eventref.on('child_added', function(snapshot) {
+  // console.log(snapshot.val())
+  evNameList.push(snapshot.val());
+  // console.log(snapshot.key);
+  eventNameDict[snapshot.key] = snapshot.val()
+  app.set("eventNameList", evNameList);
+  app.set("eventNameDict", eventNameDict);
+
+});
+
+
 
 
 // view engine setup

@@ -19,20 +19,20 @@ router.get('/', function(req, res, next) {
   cd = req.app.get("clickData");
   sortedData = groupBy(cd, "theme", "act");
   sortedList = unlistDict(sortedData, "theme", "act");
-  // sortedList = unlist(sorted)
-  // cd.forEach( function (val, index, arr) {
-  //   console.log(val);
-  //   if (sortedData[val["theme"]] == undefined) {
-  //     sortedData[val["theme"]] = [];
-  //   }
-  //   sortedData[val["theme"]].push(val);
-  // })
-  // console.log(sortedData);
-  // doudata = sortedData["Development of Understanding"];
-  // res.render('index', { title: 'Express' , understandingData: doudata});
-  // el = makeDict(eventList, "eventName");
-  // console.log("event list " + eventList);
-  res.render('index', { title: 'Express' , sl: sortedList, evList: eventList});
+  
+  // console.log("event list " + String(eventList));
+  for (el in eventList) {
+    // console.log()
+    // console.log(eventList[el] + " glib " + JSON.stringify(eventNameDict[eventList[el]]));
+    if (eventNameDict[eventList[el]] == undefined) {
+      eventList.splice(el, 1);
+    }
+  }
+  // sortedList.sort(function (first, sec) { return sec.epoch - first.epoch});
+
+  res.render('index', { title: 'Event Report' , sl: sortedList, evList: eventList, evDict: eventNameDict});
+  // console.log(eventNameDict);
+
 
 });
 
@@ -40,9 +40,10 @@ router.get('/:eventName', function(req, res, next) {
   cd = req.app.get("clickData");
   sortedData = groupBy(cd, "theme", "act");
   sortedList = unlistDict(sortedData, "theme", "act");
-
+  // console.log(sortedList);
+  sortedList.sort(function (first, sec) { return sec.epoch - first.epoch});
   flsl = sortedList.filter( function (o){ return o["event"] == req.params.eventName; } );
-  res.render('index', { title: 'Express' , sl: flsl, evList: eventList} );
+  res.render('index', { title: 'Event Report' , sl: flsl, evList: eventList, evDict: eventNameDict} );
 });
 
 function makeDict (eventList, eventName) {

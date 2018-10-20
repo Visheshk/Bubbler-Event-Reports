@@ -15,15 +15,21 @@
     <!-- <h3> Development of Understanding</h3> -->
     <p></p>
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Choose Event
-      </button>
+      </a>
       <div id = "event-dropdown-select" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <% for(var i=0; i<evList.length; i++) {%>
-          <a class="dropdown-item" href="/<%= evList[i] %>"><%= evList[i] %></a>
+        <% for(var i=0; i<5; i++) {%>
+          <a class="dropdown-item" href="/<%= evList[i] %>"><%= evDict[String(evList[i])].eventOrganizer %> - <%= evDict[String(evList[i])].eventCode %></a>
         <% } %>
       </div>
     </div>
+
+    <!-- <div class="row">
+    <% for(var i=0; i<5; i++) {%>
+          <a class="dropdown-item" href="/<%= evList[i] %>"><%= evList[i] %></a>
+        <% } %>
+    </div> -->
 
     <p></p>
     <table class="table">
