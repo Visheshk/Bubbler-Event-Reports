@@ -34,40 +34,41 @@
     <p></p>
     <table class="table">
     <thead>
-      <tr>
+      <tr class="d-flex">
         <!-- <th scope="col">#</th> -->
-        <th scope="col">Time</th>
-        <th scope="col">Action</th>
-        <th scope="col">Theme</th>
-        <th scope="col" style="width: 35%">Notes</th>
-        <th scope="col">Tags</th>
-        <th scope="col" style="width: 100px">Images</th>
-        <th scope="col"style="width: 100px">Audios</th>
+        <th class="col-2">Time</th>
+        <th class="col-1">Action</th>
+        <th class="col-1">Theme</th>
+        <th class="col-4">Notes</th>
+        <th class="col-1">Tags</th>
+        <th class="col-2">Images</th>
+        <th class="col-1">Audios</th>
       </tr>
     </thead>
     <tbody>
+      <!-- <tr class="d-flex"> -->
       <% for(var i=0; i<sl.length; i++) {%>
       <!-- (sl.filter(function (o){return o["event"] == 5})) -->
-        <tr>
-         <td>
+        <tr class="d-flex">
+         <td class="col-2">
            <%= sl[i].time %>
          </td>
-         <td>
+         <td class="col-1">
            <%= sl[i].act %>
          </td>
-         <td>
+         <td class="col-1">
            <%= sl[i].theme %>
          </td>
-         <td>
+         <td class="col-4">
            <%= sl[i].notes %>
          </td>
-         <td>
+         <td class="col-1">
            <%= sl[i].tags %>
          </td>
-         <td>
+         <td class="col-2">
            <%= JSON.stringify(sl[i].imageList) %>
          </td>
-         <td>
+         <td class="col-1">
            <%= JSON.stringify(sl[i].recordingList) %>
          </td>
        </tr>

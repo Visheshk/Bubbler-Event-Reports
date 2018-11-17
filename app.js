@@ -66,7 +66,7 @@ fref.on('child_added', function(snapshot) {
   var snv = snapshot.val();
   if (snv.imageList != undefined) {
     for (i in snv.imageList) {
-      console.log("trying to clear image");
+      // console.log("trying to clear image");
       snv.imageList[i].image = "";
       var furl = "";
       // fstore.child(snv.event + "/" + snv.imageList[i].fileName).getDownloadURL().then(function (url) {
@@ -84,7 +84,7 @@ fref.on('child_added', function(snapshot) {
   
   if (eventList.indexOf(snv.event) == -1) {
     eventList.push(snv.event);
-    console.log(snv.event);
+    // console.log(snv.event);
   }
   app.set('clickData', data);
   app.set('eventList', eventList);
