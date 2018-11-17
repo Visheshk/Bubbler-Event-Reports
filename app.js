@@ -22,6 +22,7 @@ firebase.initializeApp(config);
 
 // console.log(config)
 var fdb = firebase.database();
+// var fstore = firebase.storage().ref();
 // app.set('firedb', fdb);
 connectedRef = fdb.ref(".info/connected");
 connectedRef.on("value", function(snap) {
@@ -62,14 +63,32 @@ eventList = [];
 sortedData = {"Development of Understanding": [], "Social Scaffolding": []};
 fref.on('child_added', function(snapshot) {
   // console.log(snapshot.val())
-  data.push(snapshot.val());
+  var snv = snapshot.val();
+  if (snv.imageList != undefined) {
+    for (i in snv.imageList) {
+      console.log("trying to clear image");
+      snv.imageList[i].image = "";
+      var furl = "";
+      // fstore.child(snv.event + "/" + snv.imageList[i].fileName).getDownloadURL().then(function (url) {
+        // furl = url;
+      // } ).catch((err) => {
+        // console.log(err);
+      // });
+      // snv.imageList[i].imageurl = furl;
+      // console.log(furl);
+    }
+    
+  }
+  data.push(snv);
+  // console.log(snv);
   
-  if (eventList.indexOf(snapshot.val().event) == -1) {
-    eventList.push(snapshot.val().event);
-    // console.log(snapshot.val().event);
+  if (eventList.indexOf(snv.event) == -1) {
+    eventList.push(snv.event);
+    console.log(snv.event);
   }
   app.set('clickData', data);
   app.set('eventList', eventList);
+
   // app.set('groupedData', sortedData);
   // console.log(sortedData);
 });

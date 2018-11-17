@@ -28,7 +28,10 @@ router.get('/', function(req, res, next) {
       eventList.splice(el, 1);
     }
   }
+  sortedList = removeImageData(sortedList);
+  sortedList.sort(function (first, sec) { return sec.epoch - first.epoch});
   // sortedList.sort(function (first, sec) { return sec.epoch - first.epoch});
+  // console.log(JSON.stringify(evDict));
 
   res.render('index', { title: 'Event Report' , sl: sortedList, evList: eventList, evDict: eventNameDict});
   // console.log(eventNameDict);
@@ -42,9 +45,28 @@ router.get('/:eventName', function(req, res, next) {
   sortedList = unlistDict(sortedData, "theme", "act");
   // console.log(sortedList);
   sortedList.sort(function (first, sec) { return sec.epoch - first.epoch});
-  flsl = sortedList.filter( function (o){ return o["event"] == req.params.eventName; } );
+  if (eventNameDict != "none"){
+    flsl = sortedList.filter( function (o){ return o["event"] == req.params.eventName; } );
+  }
+  // console.log(cd);
+  // console.log(JSON.stringify(evDict));
+  // flsl = removeImageData(flsl);
+
   res.render('index', { title: 'Event Report' , sl: flsl, evList: eventList, evDict: eventNameDict} );
+
 });
+
+function removeImageData(ll) {
+  for (i in ll) {
+    if (ll[i].imageList != undefined) {
+      for (j in ll[i].imageList) {
+        ll[i].imageList[j].image = "";
+        console.log(ll[i].imageList[j].fileName);
+      } 
+    }
+  }
+  return ll;
+}
 
 function makeDict (eventList, eventName) {
   fl = [];

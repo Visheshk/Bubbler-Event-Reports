@@ -39,8 +39,10 @@
         <th scope="col">Time</th>
         <th scope="col">Action</th>
         <th scope="col">Theme</th>
-        <th scope="col">Notes</th>
+        <th scope="col" style="width: 35%">Notes</th>
         <th scope="col">Tags</th>
+        <th scope="col" style="width: 100px">Images</th>
+        <th scope="col"style="width: 100px">Audios</th>
       </tr>
     </thead>
     <tbody>
@@ -61,6 +63,12 @@
          </td>
          <td>
            <%= sl[i].tags %>
+         </td>
+         <td>
+           <%= JSON.stringify(sl[i].imageList) %>
+         </td>
+         <td>
+           <%= JSON.stringify(sl[i].recordingList) %>
          </td>
        </tr>
 
