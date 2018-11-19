@@ -5,6 +5,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var firebase = require("firebase");
+var config = {
+  projectId: process.env.projectId,
+  keyFilename: './bin/service-credentials.json'
+};
+
+var storage = require('@google-cloud/storage');
+var cfst = new storage.Storage(config);
+
+var bucket = cfst.bucket("bubbler-tagger.appspot.com");
+// bucket.getFiles().then(function (flist) {
+//   for (f in flist) {
+//     console.log(flist[f]);
+//   }
+//   // console.log(JSON.stringify(flist));
+// }).catch((err) => {console.log(err);});
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -37,23 +53,6 @@ connectedRef.on("value", function(snap) {
 data = [];
 evNameList = [];
 eventNameDict = {};
-// console.log(fdb);
-
-// function groupBy( array , f ) {
-//   var groups = {};
-//   array.forEach( function( o ) {
-//     var group = JSON.stringify( f(o) );
-//     groups[group] = groups[group] || [];
-//     groups[group].push( o );  
-//   });
-//   return Object.keys(groups).map( function( group ){
-//     return groups[group]; 
-//   })
-// }
-
-// var result = groupBy(list, function(item){
-//   return [item.lastname, item.age];
-// });
 
 firebaseref = fdb.ref();
 fref = firebaseref.child("EventsDebug1/ActionList");
@@ -69,18 +68,18 @@ fref.on('child_added', function(snapshot) {
       // console.log("trying to clear image");
       snv.imageList[i].image = "";
       var furl = "";
-      // fstore.child(snv.event + "/" + snv.imageList[i].fileName).getDownloadURL().then(function (url) {
-        // furl = url;
-      // } ).catch((err) => {
-        // console.log(err);
-      // });
-      // snv.imageList[i].imageurl = furl;
-      // console.log(furl);
+      var thisFile = bucket.file(snv.event + "/" + snv.imageList[i].fileName).getSignedUrl({
+          action: 'read',
+          expires: '03-09-2491'
+        }).then( function (signedUrl) {
+          snv.imageList[i].furl = signedUrl;
+          // return signedUrl;
+        }).catch((err) => console.log(err));
     }
     
   }
   data.push(snv);
-  // console.log(snv);
+  console.log(snv);
   
   if (eventList.indexOf(snv.event) == -1) {
     eventList.push(snv.event);
